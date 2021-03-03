@@ -2,6 +2,12 @@ import pyodbc
 import os
 import tableprint as tp
 import numpy as np
+from prettytable import PrettyTable
+from tabulate import tabulate
+
+    
+pr = PrettyTable()
+
 
 def modulo_est(conn):
     verficador = 2
@@ -29,16 +35,27 @@ def modulo_est(conn):
                 #MOSTRA UM SIMPLES SELECT DA TABELA
                 cursor = conn.cursor()
                 #cursor.execute('SELECT TOP 10 PRODUCTID,NAME,PRODUCTNUMBER,COLOR,SAFETYSTOCKLEVEL,STANDARDCOST,LISTPRICE from Production.Product')
-                cursor.execute('SELECT PRODUCTID,NAME from Production.Product')
-                for x in cursor:                  
+                #lista = list(cursor.execute('SELECT top 10 PRODUCTID,NAME from Production.Product'))
+                cursor.execute('SELECT top 4 PRODUCTID,NAME from Production.Product')
+                #[pr.add_row([str(x)]) for x,item in cursor]   
+                dados_select = []
+                for x,item in cursor:
+                    #dados_select = str(x)
+                    #print(tp.table(dados_select))
+                    dados_select.append(str(item))
+                print(tp.table(dados_select))
+                """colunas=['teste']
+                [print(str(tabulate(x))) for x,item in cursor]"""
+
+
+
                     #print(tp.table("|",x[0],"|",x[1],"|",x[2],"|",x[3],"|",x[4],"|",x[5],"|",x[6],"|"))
-                
-                    tp.table(str(x[0],x[1]))
-                
-                #print()  
+                    #print(tp.table(list))
+                    
+
                 #MOSTRA UM  SELECT APENAS DO CÓDIGO MENCIONADO
                 CODPROD = str(input("Digite o código do produto: \n"))
-                cursor.execute('select * from PRODUTOS where CODPROD=? ',CODPROD)
+                cursor.execute('select PRODUCTID from PRODUCTION.PRODUCTS where PRODUCTID=?',CODPROD)
                 prod_existe = 0
                 for x in cursor:                
                     print("|",x[0],"|",x[1],"|",x[2],"|",x[3],"|")
