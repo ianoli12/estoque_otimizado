@@ -1,0 +1,8 @@
+mysql porta 3306
+x protocol port 33060
+pipe name: MYSQL
+Memory Name: MYSQL
+senha root: ianoli12
+user: ianoli12
+senha 32244000
+WindowsServiceName: MySQL80
