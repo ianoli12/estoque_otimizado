@@ -4,6 +4,8 @@ import tableprint as tp
 import numpy as np
 from prettytable import PrettyTable
 from tabulate import tabulate
+import pandas as pd
+import sqlalchemy as sa
 
     
 pr = PrettyTable()
@@ -37,13 +39,18 @@ def modulo_est(conn):
                 #cursor.execute('SELECT TOP 10 PRODUCTID,NAME,PRODUCTNUMBER,COLOR,SAFETYSTOCKLEVEL,STANDARDCOST,LISTPRICE from Production.Product')
                 #lista = list(cursor.execute('SELECT top 10 PRODUCTID,NAME from Production.Product'))
                 cursor.execute('SELECT top 4 PRODUCTID,NAME from Production.Product')
+
                 #[pr.add_row([str(x)]) for x,item in cursor]   
-                dados_select = []
-                for x,item in cursor:
-                    #dados_select = str(x)
-                    #print(tp.table(dados_select))
-                    dados_select.append(str(item))
-                print(tp.table(dados_select))
+                """for x,item in cursor:
+                    item = x
+                    str(item)
+                    print(item)"""
+                engine = sa.create_engine('mssql+pyodbc://DESKTOP-EK0ORPP/AdventureWorks2017')
+                query = 'SELECT top 4 PRODUCTID,NAME from Production.Product'
+                df = pd.read_sql(query,conn)
+                print(df.head(4))
+
+
                 """colunas=['teste']
                 [print(str(tabulate(x))) for x,item in cursor]"""
 
