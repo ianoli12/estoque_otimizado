@@ -8,7 +8,7 @@ import pandas as pd
 import sqlalchemy as sa
 
     
-pr = PrettyTable()
+
 
 
 def modulo_est(conn):
@@ -28,7 +28,6 @@ def modulo_est(conn):
          #    cursor = conn.cursor()
           #   cursor.execute('select * from PRODUTOS')
 
-
         def modest_consprod(conn):
             pergunta = "s"
             
@@ -38,27 +37,20 @@ def modulo_est(conn):
                 cursor = conn.cursor()
                 #cursor.execute('SELECT TOP 10 PRODUCTID,NAME,PRODUCTNUMBER,COLOR,SAFETYSTOCKLEVEL,STANDARDCOST,LISTPRICE from Production.Product')
                 #lista = list(cursor.execute('SELECT top 10 PRODUCTID,NAME from Production.Product'))
-                cursor.execute('SELECT top 4 PRODUCTID,NAME from Production.Product')
+                cursor.execute('SELECT top 10 PRODUCTID,NAME,PRODUCTNUMBER,Makeflag from Production.Product order by PRODUCTID')
 
-                #[pr.add_row([str(x)]) for x,item in cursor]   
-                """for x,item in cursor:
-                    item = x
-                    str(item)
-                    print(item)"""
-                engine = sa.create_engine('mssql+pyodbc://DESKTOP-EK0ORPP/AdventureWorks2017')
-                query = 'SELECT top 4 PRODUCTID,NAME from Production.Product'
-                df = pd.read_sql(query,conn)
-                print(df.head(4))
-
-
-                """colunas=['teste']
-                [print(str(tabulate(x))) for x,item in cursor]"""
-
-
-
-                    #print(tp.table("|",x[0],"|",x[1],"|",x[2],"|",x[3],"|",x[4],"|",x[5],"|",x[6],"|"))
-                    #print(tp.table(list))
-                    
+                table = PrettyTable()
+                dados = []
+                
+                for linha in cursor:
+                    dados.append([elem for elem in linha])
+                #pega as colunas e joga na variavel columns 
+                columns = [column[0] for column in cursor.description]
+                table.field_names = columns
+                
+                for x in range(len(dados)):
+                    table.add_row([dados[x][0],dados[x][1],dados[x][2],dados[x][3]])
+                print(table)
 
                 #MOSTRA UM  SELECT APENAS DO CÓDIGO MENCIONADO
                 CODPROD = str(input("Digite o código do produto: \n"))
