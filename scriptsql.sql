@@ -1,8 +1,8 @@
 use AdventureWorks
-use estoquepython
+use estoque
+show databases
 
 SELECT * FROM produtos
-SELECT * FROM Product
 CREATE DATABASE EstoquePython
 
 CREATE TABLE PRODUTOS(
@@ -12,7 +12,7 @@ CREATE TABLE PRODUTOS(
 	STATUSPROD BIT NOT NULL
 );
 
-INSERT INTO PRODUTOS VALUES (2,'TAMPA',10,1)
+INSERT INTO PRODUTOS VALUES (3,'TAMPA',10,1)
 
 
 

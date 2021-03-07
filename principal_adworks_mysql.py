@@ -12,8 +12,8 @@ import pymysql
 from sqlalchemy import create_engine
 
 
-
-conn_mysqldb = 'mysql+pymysql://root:ianoli12@localhost:3306/AdventureWorks?charset=utf8mb4'
+conn_mysqldb = 'mssql+pyodbc://root:ianoli12@localhost:3306/AdventureWorks?charset=utf8mb4'
+#conn_mysqldb = 'mysql+pymysql://root:ianoli12@localhost:3306/AdventureWorks?charset=utf8mb4'
 #conn_mysqldb = 'mysql+pymysql://root:ianoli12@localhost:3306/AdventureWorks?charset=utf8'
 #conn_mysqldb = MySQLdb.connect(user='ianoli12',passwd='32244000',db='AdventureWorks')
 #conn_mysqldb = 'mysql+mysqldb://root:ianoli12@localhost:3306/AdventureWorks'
@@ -54,15 +54,12 @@ def modulo_est(conn_mysqldb):
                 print(df.head(4).to_string(index=False))
 
                 #MOSTRA UM  SELECT APENAS DO CÓDIGO MENCIONADO
-                PRODUCTID = str(input("Digite o código do produto: \n"))
+                PRODUCTID = str(input("Código do produto a ser consultado: \n"))
                 df_productid = pd.read_sql('select PRODUCTID from PRODUCTS where PRODUCTID=?',PRODUCTID,conn_mysqldb)
                 prod_existe = 0
-                """for x in cursor:                
-                    print("|",x[0],"|",x[1],"|",x[2],"|",x[3],"|")"""
-
                 if df_productid == PRODUCTID:
                     prod_existe = 1                     
-                print()
+                    print(cursor.fetchall())
                 if prod_existe != 1:
                     print("Produto não encontrado")
                 pergunta = str(input("\nDeseja consultar novamente?(s/n)...\n"))

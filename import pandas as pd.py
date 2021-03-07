@@ -1,9 +1,21 @@
+import pyodbc
+import os
+import tableprint as tp
+import numpy as np
+from prettytable import PrettyTable
+from tabulate import tabulate
 import pandas as pd
+import sqlalchemy as sa
+import MySQLdb
+import prettytable
+import pymysql
+from sqlalchemy import create_engine
 
-data = [['New York Yankees ', '"Acevedo Juan"  ', 900000, ' Pitcher\n'], 
-        ['New York Yankees ', '"Anderson Jason"', 300000, ' Pitcher\n'], 
-        ['New York Yankees ', '"Clemens Roger" ', 10100000, ' Pitcher\n'], 
-        ['New York Yankees ', '"Contreras Jose"', 5500000, ' Pitcher\n']]
+conn = pyodbc.connect(
+    "Driver={ODBC Driver 17 for SQL Server};"
+    "Server=DESKTOP-EK0ORPP;"
+    "Database=EstoquePython;"
+    "Trusted_Connection=yes;"
+)
+cursor = conn.cursor()
 
-data_transposed = zip(data)
-df = pd.DataFrame(data_transposed, columns=["Team", "Player", "Salary", "Role"])

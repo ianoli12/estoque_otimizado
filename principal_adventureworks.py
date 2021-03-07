@@ -42,12 +42,15 @@ def modulo_est(conn):
                 table = PrettyTable()
                 dados = []
                 
+
                 for linha in cursor:
                     dados.append([elem for elem in linha])
                 #pega as colunas e joga na variavel columns 
                 columns = [column[0] for column in cursor.description]
                 table.field_names = columns
                 
+                cont=0
+                #range(len(dados)) retorna a quantidade de dados na variavel DADOS(ex:10.000 e faz o x percorrer 10000 vezes)
                 for x in range(len(dados)):
                     table.add_row([dados[x][0],dados[x][1],dados[x][2],dados[x][3]])
                 print(table)
