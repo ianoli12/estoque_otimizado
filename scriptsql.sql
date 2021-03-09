@@ -1,20 +1,7 @@
-use AdventureWorks
-use estoque
-show databases
+use AdventureWorks2017
+use EstoquePython
 
-SELECT * FROM produtos
-CREATE DATABASE EstoquePython
+SELECT * FROM Production.Product
+SELECT TOP 10 * FROM Production.Product order by name
 
-CREATE TABLE PRODUTOS(
-	CODPROD INT NOT NULL PRIMARY KEY,
-	DESCPROD VARCHAR(100) NOT NULL,
-	QUANTPROD FLOAT(50),
-	STATUSPROD BIT NOT NULL
-);
-
-INSERT INTO PRODUTOS VALUES (3,'TAMPA',10,1)
-
-
-
-
-SELECt PRODUCTID,NAME,PRODUCTNUMBER,Makeflag from Product
+select * from PRODUTOS

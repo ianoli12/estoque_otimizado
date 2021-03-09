@@ -46,17 +46,16 @@ def modulo_est(conn):
                 #for x in df:
                 #print(df.iloc[df[0],[0]].to_string(index=False))
                 #if df['PRODUCTID'].values(CODPROD) == CODPROD:
-                print(np.where(df.index==CODPROD)[0])
-
-
-
+                #print(np.where(df.index==CODPROD)[0])
+                
+                print(df.iloc[CODPROD])
                 if np.where(df.index==CODPROD)[0]:
                     print("Produto encontrado")
                     print(df.iloc[CODPROD])
                     prod_existe = 1                     
                 else:
                     print("Produto não encontrado")
-                    print(df.iloc[CODPROD])
+                    #print(df.iloc[CODPROD])
                 pergunta = str(input("\nDeseja consultar novamente?(s/n)...\n"))
 
         def modest_addprod(conn): 
