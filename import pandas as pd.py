@@ -35,7 +35,7 @@ def modulo_est(conn):
                 #cursor.execute('SELECT TOP 10 PRODUCTID,NAME,PRODUCTNUMBER,COLOR,SAFETYSTOCKLEVEL,STANDARDCOST,LISTPRICE from Production.Product')
                 #lista = list(cursor.execute('SELECT top 10 PRODUCTID,NAME from Production.Product'))
                 df = pd.read_sql('SELECT top 10 PRODUCTID,NAME,PRODUCTNUMBER,Makeflag from Production.Product order by PRODUCTID',conn)
-                print(df.head().to_string(index=False))
+                print(df.to_string(index=False))
 
                 #MOSTRA UM  SELECT APENAS DO CÓDIGO MENCIONADO
                 CODPROD = int(input("Digite o código do produto: \n"))
@@ -47,9 +47,18 @@ def modulo_est(conn):
                 #print(df.iloc[df[0],[0]].to_string(index=False))
                 #if df['PRODUCTID'].values(CODPROD) == CODPROD:
                 #print(np.where(df.index==CODPROD)[0])
+                #df = productid.values[CODPROD]
+                #print(df.values(1,[CODPROD])
+                #if np.where(df.values([[1],[CODPROD]]):
                 
-                print(df.iloc[CODPROD])
-                if np.where(df.index==CODPROD)[0]:
+                
+                d = df["PRODUCTID"]
+                #d = df.convert_dtypes(d)
+                int(d)
+
+                print(d.values([[1],[CODPROD]]))
+                #df = pd.DataFrame()
+                if df.values([CODPROD] == CODPROD):
                     print("Produto encontrado")
                     print(df.iloc[CODPROD])
                     prod_existe = 1                     
