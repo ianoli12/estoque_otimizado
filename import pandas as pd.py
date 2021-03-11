@@ -52,11 +52,13 @@ def modulo_est(conn):
                 #if np.where(df.values([[1],[CODPROD]]):
                 
                 
-                d = df["PRODUCTID"]
+                #d = df["PRODUCTID"]
+                d = df.iloc[[CODPROD],[0]]
+                print(d.to_string(index=False))
                 #d = df.convert_dtypes(d)
-                int(d)
 
-                print(d.values([[1],[CODPROD]]))
+
+                print(df.values([[1],[CODPROD]]))
                 #df = pd.DataFrame()
                 if df.values([CODPROD] == CODPROD):
                     print("Produto encontrado")
