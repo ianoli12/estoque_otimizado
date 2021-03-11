@@ -7,6 +7,7 @@ from tabulate import tabulate
 import pandas as pd
 import sqlalchemy as sa
 import numpy as np
+import functools
 
 def modulo_est(conn):
     verficador = 2
@@ -34,7 +35,7 @@ def modulo_est(conn):
                 cursor = conn.cursor()
                 #cursor.execute('SELECT TOP 10 PRODUCTID,NAME,PRODUCTNUMBER,COLOR,SAFETYSTOCKLEVEL,STANDARDCOST,LISTPRICE from Production.Product')
                 #lista = list(cursor.execute('SELECT top 10 PRODUCTID,NAME from Production.Product'))
-                df = pd.read_sql('SELECT top 10 PRODUCTID,NAME,PRODUCTNUMBER,Makeflag from Production.Product order by PRODUCTID',conn)
+                df = pd.read_sql('SELECT PRODUCTID,NAME,PRODUCTNUMBER,Makeflag from Production.Product order by PRODUCTID',conn)
                 print(df.to_string(index=False))
 
                 #MOSTRA UM  SELECT APENAS DO CÓDIGO MENCIONADO
@@ -50,20 +51,22 @@ def modulo_est(conn):
                 #df = productid.values[CODPROD]
                 #print(df.values(1,[CODPROD])
                 #if np.where(df.values([[1],[CODPROD]]):
-                
-                
-                #d = df["PRODUCTID"]
-                d = df.iloc[[CODPROD],[0]]
-                print(d.to_string(index=False))
+                res = 0
+                for x in cursor:
+                    res = int(''.join(map(str,x)))
+                    print(res)
+               # c = df['PRODUCTID']
+                #c[[0]]
+                #print(int(c.iloc[CODPROD-1]))
                 #d = df.convert_dtypes(d)
-
-
-                print(df.values([[1],[CODPROD]]))
                 #df = pd.DataFrame()
-                if df.values([CODPROD] == CODPROD):
-                    print("Produto encontrado")
-                    print(df.iloc[CODPROD])
-                    prod_existe = 1                     
+                #if c.iloc[CODPROD-1] == CODPROD:
+                if res == CODPROD:
+                    print("Dados do Produto:\n")
+                    #cursor.execute('select PRODUCTID,NAME,PRODUCTNUMBER,Makeflag from Production.Product where PRODUCTID=?',CODPROD)
+                    #d = cursor.fetchone()
+                    #df.convert_dtypes(d)
+                    print(df.loc[df['PRODUCTID']==res,['PRODUCTID','NAME','PRODUCTNUMBER','Makeflag']].to_string(index=False))
                 else:
                     print("Produto não encontrado")
                     #print(df.iloc[CODPROD])
