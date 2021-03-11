@@ -8,6 +8,7 @@ import pandas as pd
 import sqlalchemy as sa
 import numpy as np
 import functools
+from datetime import date
 
 def modulo_est(conn):
     verficador = 2
@@ -72,7 +73,35 @@ def modulo_est(conn):
                     #print(df.iloc[CODPROD])
                 pergunta = str(input("\nDeseja consultar novamente?(s/n)...\n"))
 
-        def modest_addprod(conn): 
+        
+
+        def modest_addprod(conn):
+            pergunta = "s"
+            while(pergunta == "s"):
+                PRODUCTID = int(input("\nDigite o código do produto a ser incluído: \n"))
+                NAME = str(input("\n Novo nome: \n"))
+                PRODUCTNUMBER = str(input("\nNova Identificação do Produto(ProductNumer): \n"))
+                MAKEFLAG = bool(input("\nDigite a MakeFlag do Produto: \n"))
+                FINISHEDGOODSFLAG = bool(input("\nDigite a FINISHEDGOODSFLAG do produto: \n"))
+                COLOR = str(input("\n Cor do Produto: \n"))
+                SAFETYSTOCKLEVEL = int(input("\nDigite a quantidade segura de estoque: \n"))
+                REORDERPOINT = int(input("\nDigite o ponto de reordenação do produto: \n"))
+                STANDARDCOST = float(input("\nDigite o preço padrão: \n"))
+                LISTPRICE = float(input("\nDigite o valor na lista de preço desse produto: \n"))
+                DAYSTOMANUFACTURE = int(input("\nQuantidade de dias para a manufatura do produto: \n"))
+                SELLSTARTDATE = str(input("\n Digite a Data Inicial de venda do produto: (Ex:2008-04-30): \n"))
+
+                cursor = conn.cursor()
+                cursor.execute('SET IDENTITY_INSERT [Production].[Product] ON;INSERT INTO Production.Product(ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',PRODUCTID,NAME,PRODUCTNUMBER,MAKEFLAG,FINISHEDGOODSFLAG,COLOR,SAFETYSTOCKLEVEL,REORDERPOINT,STANDARDCOST,LISTPRICE,DAYSTOMANUFACTURE,SELLSTARTDATE)
+                conn.commit()
+                df = pd.read_sql('SELECT TOP 10 ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM PRODUCTION.PRODUCT ORDER BY ProductID DESC',conn)
+                print(df)
+                print(df.loc[df['PRODUCTID']==PRODUCTID,['PRODUCTID','NAME','PRODUCTNUMBER','Makeflag','FinishedGoodsFlag','Color','SafetyStockLevel','ReorderPoint','StandardCost','ListPrice','DaysToManufacture','SellStartDate']].to_string(index=False))
+                conn.commit()
+                pergunta = str(input("\nDeseja alterar o produto novamente?...\n"))
+
+
+        def modest_altprod(conn): 
             pergunta = "s"
             while(pergunta == "s"):
                 CODPROD = str(input("Insira o código do produto a ser incluído:\n"))
@@ -84,23 +113,7 @@ def modulo_est(conn):
                 cursor.execute(
                 'insert into PRODUTOS values(?,?,?,?)',CODPROD,DESCPROD,QUANTPROD,STATUSPROD)
                 conn.commit()
-                pergunta = str(input("\nDeseja inserir outro produto novamente?(s/n)...\n"))
-
-        def modest_altprod(conn):
-            pergunta = "s"
-            while(pergunta == "s"):
-                CODPROD = str(input("\nDigite o código do produto a ser alterado: \n"))
-                ALT_CODPROD = str(input("\n Novo código: \n"))
-                ALT_DESCPROD = str(input("\nNova descrição: \n"))
-                ALT_QUANTPROD = float(input("\nNova quantidade: \n"))
-                ALT_STATUSPROD = bool(input("\nNovo status: \n"))
-                
-
-                cursor = conn.cursor()
-                cursor.execute(
-                'UPDATE PRODUTOS SET CODPROD=?,DESCPROD=?,QUANTPROD=?,STATUSPROD=? WHERE CODPROD='+CODPROD+' ',ALT_CODPROD,ALT_DESCPROD,ALT_QUANTPROD,ALT_STATUSPROD)
-                conn.commit()
-                pergunta = str(input("\nDeseja alterar o produto novamente?...\n"))
+                pergunta = str(input("\nDeseja inserir outro produto novamente?(s/n)...\n"))        
 
         def modest_delprod(conn):
             cursor = conn.cursor()
