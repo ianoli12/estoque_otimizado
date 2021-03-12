@@ -10,6 +10,7 @@ import numpy as np
 import functools
 from datetime import date
 
+
 def modulo_est(conn):
     verficador = 2
     while(verficador == 2):
@@ -73,6 +74,7 @@ def modulo_est(conn):
                     #print(df.iloc[CODPROD])
                 pergunta = str(input("\nDeseja consultar novamente?(s/n)...\n"))
 
+
         
 
         def modest_addprod(conn):
@@ -98,22 +100,42 @@ def modulo_est(conn):
                 #Abaixo é necessário colocar o nome das colunas EXATAMENTE como está no banco de dados(usando mauísculo ou minusculo)
                 print(df2.loc[df2['ProductID']==PRODUCTID,['ProductID','Name','ProductNumber','MakeFlag','FinishedGoodsFlag','Color','SafetyStockLevel','ReorderPoint','StandardCost','ListPrice','DaysToManufacture','SellStartDate']].to_string(index=False))
 
-                pergunta = str(input("\nDeseja alterar o produto novamente?...\n"))
+                pergunta = str(input("\nDeseja INCLUIR o produto novamente?...\n"))
 
 
         def modest_altprod(conn): 
             pergunta = "s"
             while(pergunta == "s"):
-                CODPROD = str(input("Insira o código do produto a ser incluído:\n"))
-                DESCPROD = str(input("Insira a descrição do produto:\n"))
-                QUANTPROD = float(input("Insira a quantidade do produto:\n"))
-                STATUSPROD = bool(input("Insira o status do produto:\n"))
-                
+                PRODUCTID = str(input("\nDigite o código do produto a ser incluído: \n"))
+                df2 = pd.read_sql('SELECT ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM PRODUCTION.PRODUCT ORDER BY PRODUCTID',conn)
+                print(df2.loc[df2['ProductID']==PRODUCTID,['ProductID','Name','ProductNumber','MakeFlag','FinishedGoodsFlag','Color','SafetyStockLevel','ReorderPoint','StandardCost','ListPrice','DaysToManufacture','SellStartDate']].to_string(index=False))
+                print("\n")
+
+                NAME = str(input("\n Novo nome: \n"))
+                PRODUCTNUMBER = str(input("\nNova Identificação do Produto(ProductNumer): \n"))
+                MAKEFLAG = bool(input("\nNovo MakeFlag do Produto: \n"))
+                FINISHEDGOODSFLAG = bool(input("\nNovo FINISHEDGOODSFLAG do produto: \n"))
+                COLOR = str(input("\n Nova Cor do Produto: \n"))
+                SAFETYSTOCKLEVEL = int(input("\nNova quantidade segura de estoque: \n"))
+                REORDERPOINT = int(input("\nNovo ponto de reordenação do produto: \n"))
+                STANDARDCOST = float(input("\nNovo preço padrão: \n"))
+                LISTPRICE = float(input("\nNovo valor na lista de preço desse produto: \n"))
+                DAYSTOMANUFACTURE = int(input("\nNova quantidade de dias para a manufatura do produto: \n"))
+                SELLSTARTDATE = str(input("\n Nova Data Inicial de venda do produto: (Ex:2008-04-30): \n"))
+
                 cursor = conn.cursor()
-                cursor.execute(
-                'insert into PRODUTOS values(?,?,?,?)',CODPROD,DESCPROD,QUANTPROD,STATUSPROD)
+                #str(PRODUCTID)
+                cursor.execute('SET IDENTITY_INSERT [Production].[Product] ON;UPDATE Production.Product SET ProductID=?,Name=?,ProductNumber=?,MakeFlag=?,FinishedGoodsFlag=?,Color=?,SafetyStockLevel=?,ReorderPoint=?,StandardCost=?,ListPrice=?,DaysToManufacture=?,SellStartDate=? WHERE ProductID = ? ',NAME,PRODUCTNUMBER,MAKEFLAG,FINISHEDGOODSFLAG,COLOR,SAFETYSTOCKLEVEL,REORDERPOINT,STANDARDCOST,LISTPRICE,DAYSTOMANUFACTURE,SELLSTARTDATE)
                 conn.commit()
-                pergunta = str(input("\nDeseja inserir outro produto novamente?(s/n)...\n"))        
+                #int(PRODUCTID)
+                df2 = pd.read_sql('SELECT ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM PRODUCTION.PRODUCT ORDER BY PRODUCTID',conn)
+                #Abaixo é necessário colocar o nome das colunas EXATAMENTE como está no banco de dados(usando mauísculo ou minusculo)
+                print(df2.loc[df2['ProductID']==PRODUCTID,['ProductID','Name','ProductNumber','MakeFlag','FinishedGoodsFlag','Color','SafetyStockLevel','ReorderPoint','StandardCost','ListPrice','DaysToManufacture','SellStartDate']].to_string(index=False))
+
+                pergunta = str(input("\nDeseja ALTERAR o produto novamente?...\n"))     
+
+
+
 
         def modest_delprod(conn):
             cursor = conn.cursor()
