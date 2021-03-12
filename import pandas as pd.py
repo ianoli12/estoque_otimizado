@@ -94,10 +94,9 @@ def modulo_est(conn):
                 cursor = conn.cursor()
                 cursor.execute('SET IDENTITY_INSERT [Production].[Product] ON;INSERT INTO Production.Product(ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',PRODUCTID,NAME,PRODUCTNUMBER,MAKEFLAG,FINISHEDGOODSFLAG,COLOR,SAFETYSTOCKLEVEL,REORDERPOINT,STANDARDCOST,LISTPRICE,DAYSTOMANUFACTURE,SELLSTARTDATE)
                 conn.commit()
-                df2 = pd.read_sql('SELECT ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM PRODUCTION.PRODUCT',conn)
-                #print(df2)
-                #print(df2.loc[df2[PRODUCTID]==PRODUCTID,['ProductID','NAME','PRODUCTNUMBER','Makeflag','FinishedGoodsFlag','Color','SafetyStockLevel','ReorderPoint','StandardCost','ListPrice','DaysToManufacture','SellStartDate']].to_string(index=False))
-                print(df2.loc['PRODUCTID'==PRODUCTID,['ProductID','NAME','PRODUCTNUMBER','Makeflag']])
+                df2 = pd.read_sql('SELECT ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM PRODUCTION.PRODUCT ORDER BY PRODUCTID',conn)
+                #Abaixo é necessário colocar o nome das colunas EXATAMENTE como está no banco de dados(usando mauísculo ou minusculo)
+                print(df2.loc[df2['ProductID']==PRODUCTID,['ProductID','Name','ProductNumber','MakeFlag','FinishedGoodsFlag','Color','SafetyStockLevel','ReorderPoint','StandardCost','ListPrice','DaysToManufacture','SellStartDate']].to_string(index=False))
 
                 pergunta = str(input("\nDeseja alterar o produto novamente?...\n"))
 
