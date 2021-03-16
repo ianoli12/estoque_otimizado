@@ -9,6 +9,9 @@ import sqlalchemy as sa
 import numpy as np
 import functools
 from datetime import date
+from termcolor import colored
+
+
 
 
 def modulo_est(conn):
@@ -74,9 +77,6 @@ def modulo_est(conn):
                     #print(df.iloc[CODPROD])
                 pergunta = str(input("\nDeseja consultar novamente?(s/n)...\n"))
 
-
-        
-
         def modest_addprod(conn):
             pergunta = "s"
             while(pergunta == "s"):
@@ -104,12 +104,34 @@ def modulo_est(conn):
 
 
         def modest_altprod(conn): 
+            print("\Alteração de Produtos:\n")
             pergunta = "s"
-            while(pergunta == "s"):
-                PRODUCTID = str(input("\nDigite o código do produto a ser incluído: \n"))
-                df2 = pd.read_sql('SELECT ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM PRODUCTION.PRODUCT ORDER BY PRODUCTID',conn)
-                print(df2.loc[df2['ProductID']==PRODUCTID,['ProductID','Name','ProductNumber','MakeFlag','FinishedGoodsFlag','Color','SafetyStockLevel','ReorderPoint','StandardCost','ListPrice','DaysToManufacture','SellStartDate']].to_string(index=False))
-                print("\n")
+            while(pergunta == "s"):                
+                df = pd.read_sql('SELECT TOP 10 ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM Production.Product',conn)
+                print(df.to_string(index=False))
+
+                PRODUCTID = int(input("\nDigite o código do produto a ser alterado: \n"))
+                cursor = conn.cursor()
+                cursor.execute('select PRODUCTID from PRODUCTION.PRODUCT where PRODUCTID=?',PRODUCTID)
+                res = 0
+                for x in cursor:
+                    res = int(''.join(map(str,x)))
+                    print(res)
+
+                if res == PRODUCTID:
+                    print("Dados do Produto:\n")
+                    print(df.loc[df['ProductID']==res,['ProductID','Name','ProductNumber','MakeFlag']].to_string(index=False))
+                else:
+                    print("Produto não encontrado")
+
+                #cursor = conn.cursor()
+                #cursor.execute('SELECT ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM Production.Product Where ProductID=?',PRODUCTID)
+                #df1 = DataFrame()
+
+                
+                
+                #print(df.loc[df['ProductID']==PRODUCTID,['ProductID','Name','ProductNumber','MakeFlag','FinishedGoodsFlag','Color','SafetyStockLevel','ReorderPoint','StandardCost','ListPrice','DaysToManufacture','SellStartDate']].to_string(index=False))
+                print("Preencha os valores a serem alterados\n")
 
                 NAME = str(input("\n Novo nome: \n"))
                 PRODUCTNUMBER = str(input("\nNova Identificação do Produto(ProductNumer): \n"))
@@ -125,17 +147,13 @@ def modulo_est(conn):
 
                 cursor = conn.cursor()
                 #str(PRODUCTID)
-                cursor.execute('SET IDENTITY_INSERT [Production].[Product] ON;UPDATE Production.Product SET ProductID=?,Name=?,ProductNumber=?,MakeFlag=?,FinishedGoodsFlag=?,Color=?,SafetyStockLevel=?,ReorderPoint=?,StandardCost=?,ListPrice=?,DaysToManufacture=?,SellStartDate=? WHERE ProductID = ? ',NAME,PRODUCTNUMBER,MAKEFLAG,FINISHEDGOODSFLAG,COLOR,SAFETYSTOCKLEVEL,REORDERPOINT,STANDARDCOST,LISTPRICE,DAYSTOMANUFACTURE,SELLSTARTDATE)
+                
+                cursor.execute('SET IDENTITY_INSERT [Production].[Product] ON;UPDATE Production.Product SET Name=?,ProductNumber=?,MakeFlag=?,FinishedGoodsFlag=?,Color=?,SafetyStockLevel=?,ReorderPoint=?,StandardCost=?,ListPrice=?,DaysToManufacture=?,SellStartDate=? WHERE ProductID = ?',NAME,PRODUCTNUMBER,MAKEFLAG,FINISHEDGOODSFLAG,COLOR,SAFETYSTOCKLEVEL,REORDERPOINT,STANDARDCOST,LISTPRICE,DAYSTOMANUFACTURE,SELLSTARTDATE,PRODUCTID)
+                #cursor.execute('UPDATE Production.Product SET Name=? WHERE ProductID = ?',NAME,PRODUCTID)                
                 conn.commit()
                 #int(PRODUCTID)
-                df2 = pd.read_sql('SELECT ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM PRODUCTION.PRODUCT ORDER BY PRODUCTID',conn)
-                #Abaixo é necessário colocar o nome das colunas EXATAMENTE como está no banco de dados(usando mauísculo ou minusculo)
-                print(df2.loc[df2['ProductID']==PRODUCTID,['ProductID','Name','ProductNumber','MakeFlag','FinishedGoodsFlag','Color','SafetyStockLevel','ReorderPoint','StandardCost','ListPrice','DaysToManufacture','SellStartDate']].to_string(index=False))
 
                 pergunta = str(input("\nDeseja ALTERAR o produto novamente?...\n"))     
-
-
-
 
         def modest_delprod(conn):
             cursor = conn.cursor()
@@ -168,7 +186,8 @@ conn = pyodbc.connect(
     "Trusted_Connection=yes;"
 )
 
-print("BEM VINDO AO ESTOQUE BRASIL\n\n")
+#print(bcolors.WARNING+"BEM VINDO AO ESTOQUE BRASIL\n\n")
+print(colored("\n\n---- [ BEM VINDO AO ESTOQUE OTIMIZADO ] ----\n\n",'green'))
 
 print("1 - Módulo de Estoque: \n")
 print("2 - Sobre o software: \n")
@@ -180,4 +199,6 @@ if op_menuprin == 1:
 elif op_menuprin == 2:
     sobre_software()
 else:
-    print("Digite uma opção válida(numérica):")
+    print("Digite uma opção válida(numérica): \n")
+
+
