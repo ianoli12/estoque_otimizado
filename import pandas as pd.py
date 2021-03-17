@@ -17,14 +17,14 @@ from termcolor import colored
 def modulo_est(conn):
     verficador = 2
     while(verficador == 2):
-        print("\nMÓDULO DE ESTOQUE\n")
+        print(colored("\n__________ MÓDULOS DE ESTOQUE __________\n","blue"))
 
         print("1 - Consultar Produto do Estoque:\n")
         print("2 - Adicionar Produto ao Estoque:\n")
         print("3 - Alterar Produto do Estoque\n")
         print("4 - Excluir Produto\n")
         print("5 - Sair\n")
-        op_moduloest = int(input("Digite a opção desejada\n"))
+        op_moduloest = int(input("Digite a opção desejada> "))
 
         #FAZ SELECT SIMPLES 
         #def select_tab(conn):
@@ -191,7 +191,7 @@ print(colored("\n\n---- [ BEM VINDO AO ESTOQUE OTIMIZADO ] ----\n\n",'green'))
 
 print("1 - Módulo de Estoque: \n")
 print("2 - Sobre o software: \n")
-op_menuprin = int(input('Digite a opção desejada:'))
+op_menuprin = int(input('Digite a opção desejada > '))
 
 
 if op_menuprin == 1:
