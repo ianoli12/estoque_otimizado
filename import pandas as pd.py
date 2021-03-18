@@ -156,13 +156,34 @@ def modulo_est(conn):
                 pergunta = str(input("\nDeseja ALTERAR o produto novamente?...\n"))     
 
         def modest_delprod(conn):
-            cursor = conn.cursor()
-            cursor.execute(
-            'delete from PRODUTOS where CODPROD = ?;',
-            (2)
-            )
-            conn.commit()
-            select_tab(conn)
+
+            print("\Remover Produtos:\n")
+            pergunta = "s"
+            while(pergunta == "s" or "S"):                
+                df = pd.read_sql('SELECT TOP 10 ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM Production.Product',conn)
+                print(df.to_string(index=False))
+
+                PRODUCTID = int(input("\nDigite o código do produto a ser excluído: \n"))
+                cursor = conn.cursor()
+                cursor.execute('select PRODUCTID from PRODUCTION.PRODUCT where PRODUCTID=?',PRODUCTID)
+                res = 0
+                for x in cursor:
+                    res = int(''.join(map(str,x)))
+                    print(res)
+
+                if res == PRODUCTID:
+                    print(colored("Deseja REALMENTE excluir o Produto:\n","red"))
+                    escolha = str(input("(Sim ou Não) S ou N: \n"))
+                    if escolha == 's' and 'S':
+                        cursor.execute('DELETE FROM Production.Product WHERE ProductID = ?',PRODUCTID)
+                        conn.commit()
+                        print("Produto Deletado")
+                else:
+                    print("Produto não encontrado")
+                pergunta = str(input("\nDeseja EXCLUIR outro produto?...\n"))
+
+
+
 
         if op_moduloest == 1:
             modest_consprod(conn)

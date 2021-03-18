@@ -20,7 +20,7 @@ SELECT ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStock
 
 DELETE FROM Production.Product WHERE ProductID BETWEEN 1000 AND 1034
 
-
+DELETE FROM Production.Product WHERE ProductID = 300
 
 
 SELECT TOP 10 ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM PRODUCTION.PRODUCT ORDER BY ProductID DESC
