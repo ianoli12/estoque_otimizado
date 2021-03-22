@@ -40,7 +40,7 @@ def modulo_est(conn):
                 cursor = conn.cursor()
                 #cursor.execute('SELECT TOP 10 PRODUCTID,NAME,PRODUCTNUMBER,COLOR,SAFETYSTOCKLEVEL,STANDARDCOST,LISTPRICE from Production.Product')
                 #lista = list(cursor.execute('SELECT top 10 PRODUCTID,NAME from Production.Product'))
-                df = pd.read_sql('SELECT PRODUCTID,NAME,PRODUCTNUMBER,Makeflag from Production.Product order by PRODUCTID',conn)
+                df = pd.read_sql('SELECT TOP 10 PRODUCTID,NAME,PRODUCTNUMBER,Makeflag from Production.Product order by PRODUCTID',conn)
                 print(df.to_string(index=False))
 
                 #MOSTRA UM  SELECT APENAS DO CÓDIGO MENCIONADO
@@ -79,7 +79,7 @@ def modulo_est(conn):
 
         def modest_addprod(conn):
             pergunta = "s"
-            while(pergunta == "s"):
+            while(pergunta == "s" or "S"):
                 PRODUCTID = int(input("\nDigite o código do produto a ser incluído: \n"))
                 NAME = str(input("\n Novo nome: \n"))
                 PRODUCTNUMBER = str(input("\nNova Identificação do Produto(ProductNumer): \n"))
@@ -106,7 +106,7 @@ def modulo_est(conn):
         def modest_altprod(conn): 
             print("\Alteração de Produtos:\n")
             pergunta = "s"
-            while(pergunta == "s"):                
+            while(pergunta == "s" or "S"):                
                 df = pd.read_sql('SELECT TOP 10 ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM Production.Product',conn)
                 print(df.to_string(index=False))
 
@@ -174,8 +174,8 @@ def modulo_est(conn):
                 if res == PRODUCTID:
                     print(colored("Deseja REALMENTE excluir o Produto:\n","red"))
                     escolha = str(input("(Sim ou Não) S ou N: \n"))
-                    if escolha == 's' and 'S':
-                        cursor.execute('DELETE FROM Production.Product WHERE ProductID = ?',PRODUCTID)
+                    if escolha == 's' or 'S':
+                        cursor.execute('SET IDENTITY_INSERT [Production].[Product] ON;DELETE FROM Production.Product WHERE ProductID = ?',PRODUCTID)
                         conn.commit()
                         print("Produto Deletado")
                 else:
@@ -208,7 +208,7 @@ conn = pyodbc.connect(
 )
 
 #print(bcolors.WARNING+"BEM VINDO AO ESTOQUE BRASIL\n\n")
-print(colored("\n\n---- [ BEM VINDO AO ESTOQUE OTIMIZADO ] ----\n\n",'green'))
+print(colored("\n\n\n\n\n\n---- [ BEM VINDO AO ESTOQUE OTIMIZADO ] ----\n\n",'green'))
 
 print("1 - Módulo de Estoque: \n")
 print("2 - Sobre o software: \n")

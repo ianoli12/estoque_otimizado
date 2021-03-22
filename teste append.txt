@@ -1,4 +1,0 @@
-dados1=[1,2,3,4]
-dados2=[]
-
-dados2.append(dados1)

@@ -1,6 +1,8 @@
 use AdventureWorks2017
 
 SELECT * FROM Production.Product
+SELECT * FROM Production.TransactionHistory
+
 SELECT TOP 10 * FROM Production.Product order by name
 
 
@@ -26,3 +28,6 @@ DELETE FROM Production.Product WHERE ProductID = 300
 SELECT TOP 10 ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM PRODUCTION.PRODUCT ORDER BY ProductID DESC
 
 UPDATE Production.Product SET ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel=?,ReorderPoint=?,StandardCost=?,ListPrice=?,DaysToManufacture=?,SellStartDate=? WHERE ProductID = ?
+
+
+DELETE FROM Production.Product WHERE ProductID = 4
