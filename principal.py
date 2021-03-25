@@ -12,8 +12,6 @@ from datetime import date
 from termcolor import colored
 
 
-
-
 def modulo_est(conn):
     verficador = 2
     while(verficador == 2):
@@ -41,7 +39,7 @@ def modulo_est(conn):
                 #cursor.execute('SELECT TOP 10 PRODUCTID,NAME,PRODUCTNUMBER,COLOR,SAFETYSTOCKLEVEL,STANDARDCOST,LISTPRICE from Production.Product')
                 #lista = list(cursor.execute('SELECT top 10 PRODUCTID,NAME from Production.Product'))
                 df = pd.read_sql('SELECT TOP 10 PRODUCTID,NAME,PRODUCTNUMBER,Makeflag from Production.Product order by PRODUCTID',conn)
-                print(df.to_string(index=False))
+                print(colored(df.to_string(index=False),"blue"))
 
                 #MOSTRA UM  SELECT APENAS DO CÓDIGO MENCIONADO
                 CODPROD = int(input("Digite o código do produto: \n"))
@@ -59,7 +57,7 @@ def modulo_est(conn):
                 res = 0
                 for x in cursor:
                     res = int(''.join(map(str,x)))
-                    print(res)
+                    #print(res)
                # c = df['PRODUCTID']
                 #c[[0]]
                 #print(int(c.iloc[CODPROD-1]))
@@ -79,8 +77,23 @@ def modulo_est(conn):
 
         def modest_addprod(conn):
             pergunta = "s"
-            while(pergunta == "s" or "S"):
-                PRODUCTID = int(input("\nDigite o código do produto a ser incluído: \n"))
+            cursor = conn.cursor()
+            while(pergunta == "s" and "S"):
+                prod_igual = ""
+                #PRODUCTID = 0
+                df2 = 0
+                res = 0
+                
+                for x in cursor:
+                    res = int(''.join(map(str,x)))
+
+                while(prod_igual == ""):
+                    #print(df2.loc[df2['ProductID']==PRODUCTID,['ProductID']].to_int(index=False))
+                    PRODUCTID = int(input("\nDigite o código do produto a ser incluído: \n"))
+                    if PRODUCTID == df2.loc[df2['ProductID']==PRODUCTID,['ProductID']].to_string(index=False):
+                        print(colored("O Código deste produto já está cadastrado","red"))
+                        prod_igual = ""
+
                 NAME = str(input("\n Novo nome: \n"))
                 PRODUCTNUMBER = str(input("\nNova Identificação do Produto(ProductNumer): \n"))
                 MAKEFLAG = bool(input("\nDigite a MakeFlag do Produto: \n"))
@@ -98,7 +111,7 @@ def modulo_est(conn):
                 conn.commit()
                 df2 = pd.read_sql('SELECT ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM PRODUCTION.PRODUCT ORDER BY PRODUCTID',conn)
                 #Abaixo é necessário colocar o nome das colunas EXATAMENTE como está no banco de dados(usando mauísculo ou minusculo)
-                print(df2.loc[df2['ProductID']==PRODUCTID,['ProductID','Name','ProductNumber','MakeFlag','FinishedGoodsFlag','Color','SafetyStockLevel','ReorderPoint','StandardCost','ListPrice','DaysToManufacture','SellStartDate']].to_string(index=False))
+                print(colored(df2.loc[df2['ProductID']==PRODUCTID,['ProductID','Name','ProductNumber','MakeFlag','FinishedGoodsFlag','Color','SafetyStockLevel','ReorderPoint','StandardCost','ListPrice','DaysToManufacture','SellStartDate']].to_string(index=False),"blue"))
 
                 pergunta = str(input("\nDeseja INCLUIR o produto novamente?...\n"))
 
@@ -106,7 +119,7 @@ def modulo_est(conn):
         def modest_altprod(conn): 
             print("\Alteração de Produtos:\n")
             pergunta = "s"
-            while(pergunta == "s" or "S"):                
+            while(pergunta == "s" and "S"):                
                 df = pd.read_sql('SELECT TOP 10 ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM Production.Product',conn)
                 print(df.to_string(index=False))
 
@@ -159,7 +172,7 @@ def modulo_est(conn):
 
             print("\Remover Produtos:\n")
             pergunta = "s"
-            while(pergunta == "s" or "S"):                
+            while(pergunta == "s" and "S"):                
                 df = pd.read_sql('SELECT TOP 10 ProductID,Name,ProductNumber,MakeFlag,FinishedGoodsFlag,Color,SafetyStockLevel,ReorderPoint,StandardCost,ListPrice,DaysToManufacture,SellStartDate FROM Production.Product',conn)
                 print(df.to_string(index=False))
 
