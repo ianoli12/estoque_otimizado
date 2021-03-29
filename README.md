@@ -20,4 +20,4 @@ Excluindo dados:
 
 ![Alt Text](https://media.giphy.com/media/nP947xSWWRKO0wEHVH/giphy.gif)
 
-<img src="https://camo.githubusercontent.com/..." data-canonical-src="https://media.giphy.com/media/PoAwcmJSalz37xAXQe/giphy.gif" width="200" height="400" />
+<img src="https://media.giphy.com/..." data-canonical-src="https://media.giphy.com/media/PoAwcmJSalz37xAXQe/giphy.gif" width="200" height="400" />
