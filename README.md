@@ -3,7 +3,7 @@
 
 O Software ESTOQUE OTIMIZADO tem como finalidade gerenciar um estoque por linha de comando que possibilita Visualizar, Incluir, Atualizar e Excluir dados de produtos
 no banco de dados.
-Tecnologias Utilizadas: Python -  e SQL.
+Tecnologias Utilizadas: Python e SQL.
 
 Visualizando os dados:
 
