@@ -1,5 +1,5 @@
-<img src="https://media.giphy.com/media/PoAwcmJSalz37xAXQe/giphy.gif" alt="alt text" width="100" height="100">
-# ESTOQUE OTIMIZADO
+
+# ESTOQUE OTIMIZADO<img src="https://media.giphy.com/media/PoAwcmJSalz37xAXQe/giphy.gif" alt="alt text" width="100" height="100">
 
 O Software ESTOQUE OTIMIZADO tem como finalidade gerenciar um estoque por linha de comando que possibilita Visualizar, Incluir, Atualizar e Excluir dados de produtos
 no banco de dados.
