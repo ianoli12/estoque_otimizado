@@ -20,4 +20,5 @@ Excluindo dados:
 
 ![Alt Text](https://media.giphy.com/media/nP947xSWWRKO0wEHVH/giphy.gif)
 
-<img src="https://media.giphy.com/" data-canonical-src="https://media.giphy.com/media/PoAwcmJSalz37xAXQe/giphy.gif" width="200" height="400" />
+<img src="https://media.giphy.com/" data-c+anonical-src="https://media.giphy.com/media/PoAwcmJSalz37xAXQe/giphy.gif" width="200" height="400" />
+<img src="https://media.giphy.com/media/PoAwcmJSalz37xAXQe/giphy.gif" alt="alt text" width="100" height="100">
